@@ -1,36 +1,31 @@
+const express = require("express");
+const axios = require("axios");
+const router = express.Router();
 router.get("/search", async (req, res) => {
-  const { q, min, max } = req.query;
-
-  // Fetch products from DummyJSON
-  const response = await fetch(
-    `https://dummyjson.com/products/search?q=${q}`
-  );
-  const data = await response.json();
-
-  let products = data.products || [];
-
-  // 🔥 PRICE FILTER
-  if (min) {
-    products = products.filter(
-      (p) => p.price >= Number(min)
+  try {
+    const { q, min, max } = req.query;
+    if (!q) return res.json([]);
+    const response = await axios.get(
+      `https://dummyjson.com/products/search?q=${q}`
     );
+    let products = response.data.products;
+    if (min) {
+      products = products.filter(
+        (p) => p.price >= parseFloat(min)
+      );
+    }
+    if (max) {
+      products = products.filter(
+        (p) => p.price <= parseFloat(max)
+      );
+    }
+    products.sort((a, b) => b.rating - a.rating);
+
+    res.json(products);
+  } catch (error) {
+    console.error("Search error:", error.message);
+    res.status(500).json({ message: "Server Error" });
   }
-
-  if (max) {
-    products = products.filter(
-      (p) => p.price <= Number(max)
-    );
-  }
-
-  // Map to frontend-friendly format
-  const finalProducts = products.slice(0, 5).map((p) => ({
-    id: p.id,
-    name: p.title,
-    price: p.price,
-    rating: p.rating,
-    image: p.thumbnail,
-    description: p.description,
-  }));
-
-  res.json(finalProducts);
 });
+
+module.exports = router;

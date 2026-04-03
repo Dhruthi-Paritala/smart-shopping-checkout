@@ -1,30 +1,37 @@
-const ProductCard = ({ product }) => {
+function ProductCard({ product }) {
   return (
-    <div className="bg-white rounded-xl shadow hover:shadow-lg p-4">
+    <div className="bg-white rounded-xl shadow-md p-4">
+
+      {/* IMAGE */}
       <img
-        src={product.image}
-        alt={product.name}
-        className="h-40 w-full object-cover rounded"
+        src={product.thumbnail}
+        alt={product.title}
+        className="w-full h-48 object-contain mb-4"
       />
 
-      <h3 className="mt-2 font-semibold text-lg">
-        {product.name}
-      </h3>
+      {/* TITLE */}
+      <h2 className="text-lg font-bold mb-2">
+        {product.title}
+      </h2>
 
-      <p className="text-sm text-gray-600 line-clamp-2">
+      {/* DESCRIPTION */}
+      <p className="text-gray-600 text-sm mb-3">
         {product.description}
       </p>
 
-      <div className="flex justify-between mt-3">
-        <span className="font-bold text-green-600">
+      {/* PRICE + RATING */}
+      <div className="flex justify-between items-center">
+        <span className="text-green-600 font-bold">
           ₹{product.price}
         </span>
+
         <span className="text-yellow-500">
           ⭐ {product.rating}
         </span>
       </div>
+
     </div>
   );
-};
+}
 
 export default ProductCard;

@@ -1,6 +1,4 @@
 const axios = require("axios");
-
-// ChatGPT-style ranked search
 exports.searchProducts = async (req, res) => {
   try {
     const query = req.query.q;
@@ -27,9 +25,8 @@ exports.searchProducts = async (req, res) => {
     res.status(500).json({ error: "Failed to fetch products" });
   }
 };
-
-// Default top recommendations
 exports.topProducts = async (req, res) => {
   const response = await axios.get("https://dummyjson.com/products");
   res.json(response.data.products.slice(0, 5));
 };
+
