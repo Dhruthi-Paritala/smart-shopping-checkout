@@ -5,7 +5,7 @@ pipeline {
 
         stage('Clone Code') {
             steps {
-                git 'https://github.com/Dhruthi-Paritala/smart-shopping-checkout'
+                git branch: 'main', url: 'https://github.com/Dhruthi-Paritala/smart-shopping-checkout'
             }
         }
 
